@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Weatherapp</string>
+    <string name="app_name">My Weather App</string>
+    <string name="app_location">St.Paul, MN</string>
+    <string name="app_location_temperature">72°</string>
+    <string name="location_feel_like">Feel like 78°</string>
+    <string name="state_factors">Low 65°\nHigh 80°\nHumidity 100%\nPressure 1023hPa</string>
 </resources>
