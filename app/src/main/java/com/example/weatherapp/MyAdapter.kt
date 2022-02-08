@@ -37,9 +37,9 @@ class MyAdapter(private val data: List<DateForecast>) :
             dateView.text = dateFormatter.format(getDateTime)
             sunRiseView.append(hourTimeFormatter.format(getHourTimeSR))
             sunSetView.append(hourTimeFormatter.format(getHourTimeSS))
-            tempView.append(data.temp.day.toInt().toString() + "°")
-            highView.append(data.temp.max.toInt().toString() + "°")
-            lowView.append(data.temp.min.toInt().toString() + "°")
+            tempView.append(data.temp.day.toInt().toString() + "°F")
+            highView.append(data.temp.max.toInt().toString() + "°F")
+            lowView.append(data.temp.min.toInt().toString() + "°F")
         }
     }
 
