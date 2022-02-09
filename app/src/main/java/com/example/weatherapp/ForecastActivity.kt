@@ -62,9 +62,10 @@ class ForecastActivity : AppCompatActivity() {
         actionBar?.setBackgroundDrawable(backgroundColor)
 
 
+
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
+        recyclerView.setBackgroundColor(Color.parseColor("#FF03DAC5"))
         recyclerView.adapter = MyAdapter(adapterData)
     }
 
