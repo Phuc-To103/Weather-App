@@ -7,5 +7,4 @@ data class DateForecast(
     val temp: TempForecast,
     val humidity: Int,
     val pressure: Float
-) {
-}
+)
