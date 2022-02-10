@@ -4,4 +4,13 @@
     <string name="app_location_temperature">72°</string>
     <string name="location_feel_like">Feel like 78°</string>
     <string name="state_factors">Low 65°\nHigh 80°\nHumidity 100%\nPressure 1023hPa</string>
+    <string name="forecastButton">Forecast</string>
+    <string name="title_activity_forecast">ForecastActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="date">Date</string>
+    <string name="temp">Temp: </string>
+    <string name="high">High: </string>
+    <string name="low">Low: </string>
+    <string name="sunrise">Sunrise: </string>
+    <string name="sunset">Sunset: </string>
 </resources>
