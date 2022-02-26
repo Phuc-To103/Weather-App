@@ -1,8 +1,10 @@
 package com.example.weatherapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -13,15 +15,23 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+
 class MainActivity : AppCompatActivity() {
 
     private val apiKey = "a12bec12393f5199d393a0108ff06758"
     private lateinit var api : Api
+    private lateinit var myConstraintLayout: ConstraintLayout
+    private lateinit var animationDrawable: AnimationDrawable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        myConstraintLayout = findViewById(R.id.ConstraintLayout_main)
+        animationDrawable = myConstraintLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(15)
+        animationDrawable.setExitFadeDuration(3000)
+        animationDrawable.start()
 
         button.setOnClickListener {
             startActivity(Intent(this, ForecastActivity::class.java))
@@ -42,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
         val call: Call<CurrentConditions> = api.getCurrentCondition("55016")
         call.enqueue(object: Callback<CurrentConditions>{
             override fun onResponse(
@@ -53,9 +64,7 @@ class MainActivity : AppCompatActivity() {
                     bindData(it)
                 }
             }
-
             override fun onFailure(call: Call<CurrentConditions>, t: Throwable) {
-
             }
 
         })

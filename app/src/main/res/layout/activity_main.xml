@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/electric_blue">
+    android:id="@+id/ConstraintLayout_main"
+    android:background="@drawable/gradient_animation"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/city_name"

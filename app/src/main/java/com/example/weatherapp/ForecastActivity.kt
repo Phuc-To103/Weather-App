@@ -1,10 +1,12 @@
 package com.example.weatherapp
 
 import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.moshi.Moshi
@@ -20,6 +22,8 @@ class ForecastActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var api: Api
+    private lateinit var myConstraintLayout: ConstraintLayout
+    private lateinit var animationDrawable: AnimationDrawable
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +32,18 @@ class ForecastActivity : AppCompatActivity() {
 
         val actionBar: ActionBar? = supportActionBar
         actionBar?.title = "Forecast"
-        val backgroundColor = ColorDrawable(Color.parseColor("#FFA500"))
+        val backgroundColor = ColorDrawable(Color.parseColor("#ffb347"))
         actionBar?.setBackgroundDrawable(backgroundColor)
+
+        myConstraintLayout = findViewById(R.id.ConstraintLayout_forecast)
+        animationDrawable = myConstraintLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(15)
+        animationDrawable.setExitFadeDuration(3000)
+        animationDrawable.start()
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.setBackgroundColor(Color.parseColor("#FF03DAC5"))
+//        recyclerView.setBackgroundColor(Color.parseColor("#FF03DAC5"))
         recyclerView.adapter = MyAdapter(listOf<DateForecast>())
 
         val moshi = Moshi.Builder()
