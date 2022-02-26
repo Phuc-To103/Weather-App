@@ -27,12 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //set animation
         myConstraintLayout = findViewById(R.id.ConstraintLayout_main)
         animationDrawable = myConstraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(15)
         animationDrawable.setExitFadeDuration(3000)
         animationDrawable.start()
 
+        //Set button
         button.setOnClickListener {
             startActivity(Intent(this, ForecastActivity::class.java))
         }
