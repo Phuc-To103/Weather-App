@@ -35,14 +35,12 @@ class ForecastActivity : AppCompatActivity() {
         val backgroundColor = ColorDrawable(Color.parseColor("#ffb347"))
         actionBar?.setBackgroundDrawable(backgroundColor)
 
-        //set Animation
         myConstraintLayout = findViewById(R.id.ConstraintLayout_forecast)
         animationDrawable = myConstraintLayout.background as AnimationDrawable
         animationDrawable.setEnterFadeDuration(15)
         animationDrawable.setExitFadeDuration(3000)
         animationDrawable.start()
 
-        //Set Recyclerview
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = MyAdapter(listOf<DateForecast>())
