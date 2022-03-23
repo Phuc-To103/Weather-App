@@ -12,9 +12,9 @@ class  ForecastViewModel @Inject constructor(private val api: Api) : ViewModel()
     val forecast: LiveData<Forecast>
         get() = myForecast
 
-    fun loadData() = runBlocking {
+    fun loadData(zipCode: String) = runBlocking {
         launch {
-            myForecast.value = api.getForecast()
+            myForecast.value = api.getForecast(zipCode)
         }
     }
 

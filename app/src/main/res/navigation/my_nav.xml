@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.weatherapp.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_currentConditionsFragment"
+            app:destination="@id/currentConditionsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_in_left" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/currentConditionsFragment"
+        android:name="com.example.weatherapp.CurrentConditionsFragment"
+        android:label="Current Conditions"
+        tools:layout="@layout/current_condition_fragment">
+        <action
+            android:id="@+id/action_currentConditionsFragment_to_foreCastFragment"
+            app:destination="@id/forecastFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_in_left" />
+        <argument
+            android:name="zipCode"
+            app:argType="string"
+            android:defaultValue="55016" />
+        <action
+            android:id="@+id/action_currentConditionsFragment_to_searchFragment"
+            app:destination="@id/searchFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_in_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forecastFragment"
+        android:name="com.example.weatherapp.ForecastFragment"
+        android:label="Forecast"
+        tools:layout="@layout/forecast_fragment">
+        <argument
+            android:name="zipCode"
+            app:argType="string"
+            android:defaultValue="55016" />
+        <action
+            android:id="@+id/action_forecastFragment_to_currentConditionsFragment"
+            app:destination="@id/currentConditionsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_in_left" />
+    </fragment>
+    <argument
+        android:name="zipCode"
+        app:argType="string"
+        app:nullable="true" />
+</navigation>

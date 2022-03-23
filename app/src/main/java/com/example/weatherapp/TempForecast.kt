@@ -1,11 +1,12 @@
 package com.example.weatherapp
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TempForecast(
-    @Json(name = "day") val day: Float,
-    @Json(name = "min") val min: Float,
-    @Json(name = "max") val max: Float,
-//    val icon: String
-
-)
+    val day: Float,
+    val min: Float,
+    val max: Float
+) : Parcelable
