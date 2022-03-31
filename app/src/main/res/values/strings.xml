@@ -16,4 +16,8 @@
     <string name="low">Low: </string>
     <string name="sunrise">Sunrise: </string>
     <string name="sunset">Sunset: </string>
+    <string name="zip_code">ZIP Code</string>
+    <string name="search">Search</string>
+    <string name="enter_zip_code">Enter a zip code:</string>
+    <string name="ok">Ok</string>
 </resources>
