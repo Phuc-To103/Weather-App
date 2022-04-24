@@ -20,4 +20,5 @@
     <string name="search">Search</string>
     <string name="enter_zip_code">Enter a zip code:</string>
     <string name="ok">Ok</string>
+    <string name="Request_Location">Request Location</string>
 </resources>

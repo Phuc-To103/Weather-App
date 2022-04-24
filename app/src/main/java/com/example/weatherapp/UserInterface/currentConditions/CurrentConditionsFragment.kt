@@ -1,13 +1,17 @@
-package com.example.weatherapp
+package com.example.weatherapp.UserInterface.currentConditions
 
-import android.graphics.drawable.AnimationDrawable
+
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.weatherapp.UserInterface.dialog.ErrorDialogFragment
+import com.example.weatherapp.Model.CurrentConditions
+import com.example.weatherapp.R
+import com.example.weatherapp.UserInterface.dialog.ErrorDialogFragment.Companion.TAG
 import com.example.weatherapp.databinding.CurrentConditionFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.HttpException
@@ -28,7 +32,7 @@ class CurrentConditionsFragment : Fragment(R.layout.current_condition_fragment) 
         binding.button.setOnClickListener {
             val action =
                 CurrentConditionsFragmentDirections.actionCurrentConditionsFragmentToForeCastFragment(
-                    args.zipCode
+                    args.zipCode,args.latitude,args.longitude
                 )
             findNavController().navigate(action)
 
@@ -40,8 +44,13 @@ class CurrentConditionsFragment : Fragment(R.layout.current_condition_fragment) 
         currentConditionsViewModel.currentConditions.observe(this) { currentConditions ->
             bindData(currentConditions)
         }
+        Log.d(TAG, "JOHN-3 Latitude: " + args.latitude + ", Longitude: " + args.longitude)
         try {
-            currentConditionsViewModel.loadData(args.zipCode)
+            if(args.zipCode.length == 5 && args.zipCode.all { it.isDigit() }) {
+                currentConditionsViewModel.loadData(args.zipCode)
+            }else{
+                currentConditionsViewModel.loadData(args.latitude, args.longitude)
+            }
         } catch (exception: HttpException) {
             if (exception.code() == 404) {
                 ErrorDialogFragment().show(childFragmentManager, ErrorDialogFragment.TAG)

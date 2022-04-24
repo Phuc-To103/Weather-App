@@ -1,7 +1,7 @@
-package com.example.weatherapp
+package com.example.weatherapp.Model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Forecast(
