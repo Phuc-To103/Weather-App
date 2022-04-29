@@ -21,4 +21,8 @@
     <string name="enter_zip_code">Enter a zip code:</string>
     <string name="ok">Ok</string>
     <string name="Request_Location">Request Location</string>
+    <string name="enable_notifications">Turn On Notifications</string>
+    <string name="disable_notifications">Turn Off Notifications</string>
+    <string name="notify_location">Location: %1$s</string>
+    <string name="notify_temp">Current Temp: %1$d°</string>
 </resources>

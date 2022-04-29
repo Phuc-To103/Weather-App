@@ -1,4 +1,4 @@
-package com.example.weatherapp.UserInterface.forecast
+package com.example.weatherapp.userInterface.forecast
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.weatherapp.Model.DateForecast
+import com.example.weatherapp.model.DateForecast
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.RowDataBinding
 import java.time.Instant

@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.weatherapp.UserInterface.search.SearchFragment"
-        android:label="Search"
-        tools:layout="@layout/search_fragment">
+        android:name="com.example.weatherapp.userInterface.search.SearchFragment"
+        android:label="Search">
+
         <action
             android:id="@+id/action_searchFragment_to_currentConditionsFragment"
             app:destination="@id/currentConditionsFragment"
@@ -22,9 +22,9 @@
 
     <fragment
         android:id="@+id/currentConditionsFragment"
-        android:name="com.example.weatherapp.UserInterface.currentConditions.CurrentConditionsFragment"
-        android:label="Current Conditions"
-        tools:layout="@layout/current_condition_fragment">
+        android:name="com.example.weatherapp.userInterface.currentConditions.CurrentConditionsFragment"
+        android:label="Current Conditions">
+
         <action
             android:id="@+id/action_currentConditionsFragment_to_foreCastFragment"
             app:destination="@id/forecastFragment"
@@ -32,50 +32,47 @@
             app:exitAnim="@android:anim/slide_in_left"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_in_left" />
+
+        <argument
+            android:name="currentConditionsArg"
+            app:argType="com.example.weatherapp.model.CurrentConditions"
+            app:nullable="true" />
         <argument
             android:name="zipCode"
             app:argType="string"
-            android:defaultValue="55016" />
-        <action
-            android:id="@+id/action_currentConditionsFragment_to_searchFragment"
-            app:destination="@id/searchFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_in_left" />
-        <argument
-            android:name="longitude"
-            app:argType="float"
-            android:defaultValue="-122.083" />
+            app:nullable="true" />
         <argument
             android:name="latitude"
-            app:argType="float"
-            android:defaultValue="37.4234" />
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="longitude"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
 
     <fragment
         android:id="@+id/forecastFragment"
-        android:name="com.example.weatherapp.UserInterface.forecast.ForecastFragment"
-        android:label="Forecast"
-        tools:layout="@layout/forecast_fragment">
-        <argument
-            android:name="zipCode"
-            app:argType="string"
-            android:defaultValue="55016" />
+        android:name="com.example.weatherapp.userInterface.forecast.ForecastFragment"
+        android:label="Forecast">
         <action
             android:id="@+id/action_forecastFragment_to_currentConditionsFragment"
             app:destination="@id/currentConditionsFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_in_left" />
         <argument
-            android:name="longitude"
-            app:argType="float"
-            android:defaultValue="-122.0839" />
+            android:name="zipCode"
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="latitude"
-            app:argType="float"
-            android:defaultValue="37.4234" />
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="longitude"
+            app:argType="string"
+            app:nullable="true" />
+
     </fragment>
-    <argument
-        android:name="zipCode"
-        app:argType="string"
-        app:nullable="true" />
 </navigation>
