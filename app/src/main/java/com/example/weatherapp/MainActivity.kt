@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -13,13 +14,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
-
-    private lateinit var binding : ActivityMainBinding
-    private val manifestRequestCoarseLocation: Int = 1234
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         val navController = navHostFragment.navController
         val config = AppBarConfiguration(navController.graph)
         findViewById<Toolbar>(R.id.toolBar).setupWithNavController(navController, config)
-
+        navigateToCurrentConditionFragmentIfNeeded(intent)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -40,15 +40,25 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if(requestCode == manifestRequestCoarseLocation){
+        if(requestCode == Constants.REQUEST_CODE_COARSE_LOCATION){
             if(grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Toast.makeText(this,"Permission Granted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this,"Permission Denied", Toast.LENGTH_SHORT).show()
             }
-        }
-        else{
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToCurrentConditionFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToCurrentConditionFragmentIfNeeded(intent: Intent?){
+        if(intent?.action == Constants.ACTION_SHOW_CURRENT_CONDITIONS_FRAGMENT){
+            val navController = findNavController(R.id.fragmentContainerView)
+            navController.navigate(R.id.action_global_currentConditionFragment)
         }
     }
 

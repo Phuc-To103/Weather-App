@@ -1,18 +1,28 @@
-package com.example.weatherapp.UserInterface.currentConditions
+package com.example.weatherapp.userInterface.currentConditions
 
 
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.weatherapp.UserInterface.dialog.ErrorDialogFragment
-import com.example.weatherapp.Model.CurrentConditions
+import com.example.weatherapp.MainActivity
+import com.example.weatherapp.userInterface.dialog.ErrorDialogFragment
+import com.example.weatherapp.model.CurrentConditions
 import com.example.weatherapp.R
-import com.example.weatherapp.UserInterface.dialog.ErrorDialogFragment.Companion.TAG
+import com.example.weatherapp.userInterface.dialog.ErrorDialogFragment.Companion.TAG
 import com.example.weatherapp.databinding.CurrentConditionFragmentBinding
+import com.example.weatherapp.service.NotificationService
+import com.example.weatherapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -24,19 +34,20 @@ class CurrentConditionsFragment : Fragment(R.layout.current_condition_fragment) 
     @Inject
     lateinit var currentConditionsViewModel: CurrentConditionsViewModel
     private val args by navArgs<CurrentConditionsFragmentArgs>()
+    private lateinit var weatherService: NotificationService
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = CurrentConditionFragmentBinding.bind(view)
-
+        weatherService = NotificationService()
         binding.button.setOnClickListener {
             val action =
                 CurrentConditionsFragmentDirections.actionCurrentConditionsFragmentToForeCastFragment(
                     args.zipCode,args.latitude,args.longitude
                 )
             findNavController().navigate(action)
-
         }
+        requireActivity().registerReceiver(updateNotification, IntentFilter(Constants.TIMER_UPDATED))
     }
 
     override fun onResume() {
@@ -50,6 +61,7 @@ class CurrentConditionsFragment : Fragment(R.layout.current_condition_fragment) 
                 currentConditionsViewModel.loadData(args.zipCode)
             }else{
                 currentConditionsViewModel.loadData(args.latitude, args.longitude)
+                sendNotification()
             }
         } catch (exception: HttpException) {
             if (exception.code() == 404) {
@@ -80,4 +92,44 @@ class CurrentConditionsFragment : Fragment(R.layout.current_condition_fragment) 
             .into(binding.iconTemp)
 
     }
+
+    private fun sendNotification() {
+        val builder = NotificationCompat.Builder(requireContext(),
+            Constants.NOTIFICATION_CHANNEL_ID)
+            .setAutoCancel(false)
+            .setOngoing(true)
+            .setSmallIcon(R.drawable.sun)
+            .setContentTitle(getString(R.string.notify_location,
+                currentConditionsViewModel.currentConditions.value?.name))
+            .setContentText(getString(R.string.notify_currentTemp,
+                currentConditionsViewModel.currentConditions.value?.main?.temp?.toInt()))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        with(NotificationManagerCompat.from(requireContext())) {
+            notify(1, builder.build())
+        }
+    }
+
+    private val updateNotification: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val builder = NotificationCompat.Builder(requireContext(),
+                Constants.NOTIFICATION_CHANNEL_ID
+            )
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.notify_location,
+                    currentConditionsViewModel.currentConditions.value?.name))
+                .setContentText(getString(R.string.notify_currentTemp,
+                    currentConditionsViewModel.currentConditions.value?.main?.temp?.toInt()))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(getMainActivityPendingIntent())
+            with(NotificationManagerCompat.from(requireContext())) {
+                notify(1, builder.build())
+            }
+        }
+    }
+
+    private fun getMainActivityPendingIntent() = PendingIntent.getActivity(
+        requireContext(), 0, Intent(requireContext(), MainActivity::class.java).also {
+            it.action = Constants.ACTION_SHOW_CURRENT_CONDITIONS_FRAGMENT
+        }, PendingIntent.FLAG_UPDATE_CURRENT
+    )
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapp.UserInterface.forecast
+package com.example.weatherapp.userInterface.forecast
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.weatherapp.Model.DateForecast
+import com.example.weatherapp.model.DateForecast
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.RowDataBinding
 import java.time.Instant
@@ -16,12 +16,24 @@ import java.time.format.DateTimeFormatter
 
 
 @SuppressLint("NewApi")
-class MyAdapter(private val data: List<DateForecast>) :
-    RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class MyAdapter(private val data: List<DateForecast>) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
+    private lateinit var listener: OnDayListener
+
+    fun setOnDayClickListener(dayListener: OnDayListener){
+        listener = dayListener
+    }
+
+    class ViewHolder(view: View, listener: OnDayListener) : RecyclerView.ViewHolder(view) {
         private val binding = RowDataBinding.bind(view)
         private val dateFormatter = DateTimeFormatter.ofPattern("MMM dd")
         private val hourTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+
+        init {
+            view.setOnClickListener {
+                listener.onDayClick(absoluteAdapterPosition)
+            }
+        }
 
         @SuppressLint("NewApi")
         fun bind(data: DateForecast) {
@@ -49,7 +61,7 @@ class MyAdapter(private val data: List<DateForecast>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.row_data, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -57,4 +69,8 @@ class MyAdapter(private val data: List<DateForecast>) :
     }
 
     override fun getItemCount() = data.size
+
+    interface OnDayListener{
+        fun onDayClick(index : Int)
+    }
 }

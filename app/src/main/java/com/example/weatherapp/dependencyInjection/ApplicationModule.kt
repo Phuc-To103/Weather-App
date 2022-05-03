@@ -1,6 +1,6 @@
-package com.example.weatherapp.DependencyInjection
+package com.example.weatherapp.dependencyInjection
 
-import com.example.weatherapp.Service.Api
+import com.example.weatherapp.service.Api
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
