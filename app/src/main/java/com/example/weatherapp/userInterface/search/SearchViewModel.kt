@@ -1,4 +1,4 @@
-package com.example.weatherapp.UserInterface.search
+package com.example.weatherapp.userInterface.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

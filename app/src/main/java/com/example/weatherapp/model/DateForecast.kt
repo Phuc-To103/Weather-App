@@ -1,4 +1,4 @@
-package com.example.weatherapp.Model
+package com.example.weatherapp.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -11,5 +11,6 @@ data class DateForecast(
     val temp: TempForecast,
     val humidity: Int,
     val pressure: Float,
-    val weather: List<WeatherCondition>
+    val weather: List<WeatherCondition>,
+    val speed: Float
 ) : Parcelable

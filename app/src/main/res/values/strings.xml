@@ -20,5 +20,10 @@
     <string name="search">Search</string>
     <string name="enter_zip_code">Enter a zip code:</string>
     <string name="ok">Ok</string>
-    <string name="Request_Location">Request Location</string>
+    <string name="notification">Get Notification</string>
+    <string name="turn_notification_on">Notification On</string>
+    <string name="turn_notification_off">Notification Off</string>
+    <string name="notify_location">Location: %1$s</string>
+    <string name="notify_currentTemp">Current Temp: %1$d°</string>
+    <string name="Request_Location">Get Location</string>
 </resources>

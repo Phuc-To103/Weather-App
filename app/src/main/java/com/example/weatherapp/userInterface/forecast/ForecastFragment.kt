@@ -1,12 +1,13 @@
-package com.example.weatherapp.UserInterface.forecast
+package com.example.weatherapp.userInterface.forecast
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weatherapp.UserInterface.dialog.ErrorDialogFragment
-import com.example.weatherapp.Model.Forecast
+import com.example.weatherapp.userInterface.dialog.ErrorDialogFragment
+import com.example.weatherapp.model.Forecast
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ForecastFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +17,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ForecastFragment : Fragment(R.layout.forecast_fragment) {
     private lateinit var binding: ForecastFragmentBinding
-    @Inject lateinit var viewModel: ForecastViewModel
+    @Inject lateinit var forecastViewModel: ForecastViewModel
     private val args by navArgs<ForecastFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,26 +28,36 @@ class ForecastFragment : Fragment(R.layout.forecast_fragment) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.forecast.observe(this) {
+        forecastViewModel.forecast.observe(this) {
                 forecast -> bindData(forecast)
         }
         try {
-            viewModel.loadData(args.zipCode)
+            forecastViewModel.loadData(args.zipCode)
         } catch (exception: HttpException) {
             if (exception.code() == 404) {
                 ErrorDialogFragment().show(childFragmentManager, ErrorDialogFragment.TAG)
             }
         }
         if(args.zipCode.length == 5 && args.zipCode.all { it.isDigit() }) {
-            viewModel.loadData(args.zipCode)
+            forecastViewModel.loadData(args.zipCode)
         } else {
-            viewModel.loadData(args.latitude, args.longitude)
+            forecastViewModel.loadData(args.latitude, args.longitude)
         }
 
     }
 
-    private fun bindData(foreCast: Forecast) {
-        binding.recyclerView.adapter = MyAdapter(foreCast.list)
+
+    private fun bindData(forecast: Forecast) {
+        val adapter = MyAdapter(forecast.list)
+        binding.recyclerView.adapter = adapter
+        adapter.setOnDayClickListener(object : MyAdapter.OnDayListener{
+            override fun onDayClick(index: Int) {
+                val action = ForecastFragmentDirections.actionForecastFragmentToForecastDetailsFragment(
+                    forecastViewModel.forecast.value!!.list[index])
+                findNavController().navigate(action)
+            }
+
+        })
     }
 
 }
